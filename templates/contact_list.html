@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>所有联系人</title>
 </head>
 <body>
-$END$
+    <div style="float: left;width: 20%;">
+        <ul>
+            {% for item in contact_list_dict.MemberList %}
+                <li>{{ item.UserName }} -- {{ item.NickName }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div style="float: right;width: 80%;">
+        <p><input id="toUser" type="text" placeholder="收消息用户"></p>
+        <p><textarea id="msg" placeholder="请输入消息"></textarea></p>
+        <p><input id="btn" type="button" value="发送"></p>
+    </div>
+
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script>
+        $(function () {
+           bindSendMsg();
+        });
+
+        function bindSendMsg() {
+            $('#btn').click(function () {
+                $.ajax({
+                    url:'/send-msg.html',
+                    type:'GET',
+                    data:{'toUser':$('#toUser').val(),'msg':$('#msg').val()},
+                    dataType:'JSON',
+                    success: function (data) {
+
+                    }
+                })
+            })
+        }
+    </script>
 </body>
 </html>

@@ -2,9 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>用户信息</title>
+
+    <style>
+        .main {
+            display: block;
+            height: 80%;
+            min-height: 600px;
+            padding-top: 100px;
+            -webkit-transition: padding .3s linear;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .main_inner {
+            max-width: 1000px;
+            min-width: 800px;
+            height: 100%;
+            margin: 0 auto;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            overflow: hidden;
+        }
+        .header .avatar .img {
+            width: 40px;
+            height: 40px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            display: block;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-$END$
+
+{#    <div class="main">#}
+{#        <div class="main_inner">#}
+{#            <div class="panel give_me">#}
+
+{#                <div class="header">#}
+{#                    <img class="img" src="https://wx.qq.com{{ user_init_dict.User.HeadImgUrl }}">#}
+{#                 </div>#}
+
+{#                <div class="search_bar" id="search_bar">#}
+{#                    <i class="web_wechat_search"></i>#}
+{#                    <input mm-action-track="" track-type="['focus']" track-opt="{'target':'顶部搜索'}" class="frm_search ng-isolate-scope ng-pristine ng-valid" type="text" ng-model="keyword" ng-input="search($event)" ng-keydown="searchKeydown($event)" ng-blur="focus = false;" placeholder="搜索">#}
+{#                </div>#}
+{#                {% for item in user_init_dict.ContactList %}#}
+{#                    <div data-no-cache="true" mm-repeat="chatContact in chatList track by chatContact.UserName" data-height="64" data-buffer-height="200" class="ng-scope"><div ng-style="{height:topHeight}" class="top-placeholder ng-scope" style="height: 0px;"></div><!-- ngRepeat: chatContact in chatList track by chatContact.UserName --><div ng-repeat="chatContact in chatList track by chatContact.UserName" class="ng-scope">#}
+{#                        <div class="chat_item slide-left ng-scope top" ng-if="!chatContact.isShieldUser()" data-username="@2c86aa7642043bbefb80923ba8b154caf21d9d2d78c61a1ef819fcd4027d9394" ng-click="itemClick(chatContact.UserName)" ng-class="{'active': (chatContact.UserName == currentUserName),'top':chatContact.isTop()}" data-cm="{&quot;type&quot;:&quot;chat&quot;,&quot;username&quot;:&quot;@2c86aa7642043bbefb80923ba8b154caf21d9d2d78c61a1ef819fcd4027d9394&quot;}">#}
+{##}
+{#                            <div class="ext">#}
+{#                                <p class="attr ng-binding"></p>#}
+{#                            </div>#}
+{##}
+{#                            <div class="avatar">#}
+{#                                <img class="img" src="/cgi-bin/mmwebwx-bin/webwxgeticon?seq=662324154&amp;username=@2c86aa7642043bbefb80923ba8b154caf21d9d2d78c61a1ef819fcd4027d9394&amp;skey=@crypt_adc7e416_35386c84f64639043e8b589af25c3a05" mm-src="/cgi-bin/mmwebwx-bin/webwxgeticon?seq=662324154&amp;username=@2c86aa7642043bbefb80923ba8b154caf21d9d2d78c61a1ef819fcd4027d9394&amp;skey=@crypt_adc7e416_35386c84f64639043e8b589af25c3a05" alt="">#}
+{#                            </div>#}
+{##}
+{#                            <div class="info">#}
+{#                                <h3 class="nickname">#}
+{#                                    <span class="nickname_text ng-binding" ng-bind-html="chatContact.getDisplayName()">{{ item.NickName }}</span>#}
+{#                                </h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
+    <div>个人信息</div>
+        <ul>
+            {% for item in user_init_dict.ContactList %}
+                <li>{{ item.NickName }}</li>
+            {% endfor %}
+        </ul>
+    <a href="/contact-list.html">查看更多联系人</a>
+    <div>公众号信息</div>
+        {% for item in user_init_dict.MPSubscribeMsgList %}
+            <h3>{{ item.NickName }}</h3>
+            {% for mag in item.MPArticleList %}
+                <div style="color: #dddddd;"><a href="{{ mag.Url }}">{{ mag.Title }}</a></div>
+            {% endfor %}
+        {% endfor %}
+
 </body>
 </html>

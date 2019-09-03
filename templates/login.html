@@ -58,6 +58,8 @@
                     }else if (data.code == 201){
                         $('#qrcode').attr('src', data.data)
                         checkLogin()
+                    }else if(data.code == 200){
+                        location.href = '/user.html'
                     }
                 }
             })

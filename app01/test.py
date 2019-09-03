@@ -9831,7 +9831,19 @@ user_dict = {
 # for k, v in user_dict.items():
 #     print(k,v)
 
-contact_list = user_dict['ContactList']
+# contact_list = user_dict['ContactList']
+#
+# for item in contact_list:
+# 	print(item['PYQuanPin'], item['NickName'])
 
-for item in contact_list:
-	print(item['PYQuanPin'], item['NickName'])
+# contact_list = user_dict['MPSubscribeMsgList']
+#
+# for item in contact_list:
+# 	print(item['NickName'])
+#
+# 	for mag in item['MPArticleList']:
+# 		print('----',mag['Title'],mag['Url'])
+
+# 个人信息
+print(user_dict['User']['UserName'])
+
