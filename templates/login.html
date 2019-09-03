@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信登录</title>
+    <style>
+        .login_box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -190px;
+            margin-top: -270px;
+            border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            background-color: #fff;
+            width: 380px;
+            height: 540px;
+            box-shadow: 0 2px 10px #999;
+            -moz-box-shadow: #999 0 2px 10px;
+            -webkit-box-shadow: #999 0 2px 10px;
+        }
+
+        .login_box .qrcode .img {
+            display: block;
+            width: 270px;
+            height: 270px;
+            margin: 42px auto 12px;
+        }
+    </style>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+</head>
+<body>
+    <div class="login_box">
+        <div class="qrcode" align="center">
+            <img id="qrcode" class="img" src="https://login.weixin.qq.com/qrcode/{{ qcode }}">
+        </div>
+
+        <div style="text-align: center">
+            <P>使用手机微信扫码登录</P>
+            <p>网页版微信需要配合手机使用</p>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            checkLogin()
+        })
+
+        function checkLogin() {
+            $.ajax({
+                url : '/check-login.html',
+                type : 'GET',
+                dataType: 'JSON',
+                success : function (data) {
+                    if(data.code == 408){
+                        checkLogin()
+                    }else if (data.code == 201){
+                        $('#qrcode').attr('src', data.data)
+                        checkLogin()
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>
