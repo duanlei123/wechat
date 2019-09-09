@@ -8,7 +8,7 @@
     <div style="float: left;width: 20%;">
         <ul>
             {% for item in contact_list_dict.MemberList %}
-                <li>{{ item.UserName }} -- {{ item.NickName }}</li>
+                <li username="{{ item.UserName }}" >{{ item.NickName }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -22,6 +22,8 @@
     <script>
         $(function () {
            bindSendMsg();
+           bundli();
+           getMsg();
         });
 
         function bindSendMsg() {
@@ -35,6 +37,24 @@
 
                     }
                 })
+            })
+        }
+
+        function bundli() {
+            $('li').dblclick(function () {
+                var v = $(this).attr('username');
+                $('#toUser').val(v)
+            })
+        }
+
+        function getMsg() {
+            $.ajax({
+                url: '/get-msg.html',
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    getMsg();
+                }
             })
         }
     </script>

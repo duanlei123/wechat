@@ -24,4 +24,5 @@ urlpatterns = [
     path('user.html/', views.user),
     path('contact-list.html/', views.contact_list),
     path('send-msg.html/', views.send_msg),
+    path('get-msg.html/', views.get_msg),
 ]

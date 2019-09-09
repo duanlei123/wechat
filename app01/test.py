@@ -9844,6 +9844,14 @@ user_dict = {
 # 	for mag in item['MPArticleList']:
 # 		print('----',mag['Title'],mag['Url'])
 
-# 个人信息
-print(user_dict['User']['UserName'])
+# print(user_dict['User']['UserName'])
 
+
+synckey = [{'Key': 1, 'Val': 710832941}, {'Key': 2, 'Val': 710833158}, {'Key': 3, 'Val': 710832928}, {'Key': 1000, 'Val': 1567413796}]
+
+sync_list = []
+for item in synckey:
+	temp = '%s_%s' %(item['Key'], item['Val'])
+	sync_list.append(temp)
+sn = '|'.join(sync_list)
+print(sn)

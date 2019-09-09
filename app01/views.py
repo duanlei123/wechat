@@ -177,3 +177,73 @@ def send_msg(request):
     )
     print(send.text)
     return HttpResponse('ok')
+
+
+def get_msg(request):
+    '''
+    接收用户消息
+    :param request:
+    :return:
+    '''
+
+    # 1,检查是否有消息,synckey(第一次到初始化消息中获取)
+    # 2,如果返回值是window.synccheck={retcode: "0", selector: "2"} 有消息到来
+    #     获取消息:https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=Na0PLbsg+cro03RT&skey=@crypt_adc7e416_a264ab1bf6c83b35f00bf2a3b31690ed&pass_ticket=Dw8ZngH8HoAlhhzvu%252FOMJ8OEfeLZQpir394DyowEL5dRC3bGINKyEc3v3jTmaozO
+    #         获取新的synckey
+
+    synckey_list = USER_INIT_IDCT['SyncKey']['List']
+    sync_list = []
+    for item in synckey_list:
+        temp = '%s_%s' % (item['Key'], item['Val'])
+        sync_list.append(temp)
+    synckey = '|'.join(sync_list)
+    r1 = requests.get(
+        url='https://webpush.wx.qq.com/cgi-bin/mmwebwx-bin/synccheck',
+        params={
+            'r': str(time.time()),
+            'skey': TICKET_DOCT['skey'],
+            'sid': TICKET_DOCT['wxsid'],
+            'uin': TICKET_DOCT['wxuin'],
+            'deviceid': 'e742373796383392',
+            'synckey': synckey,
+            '_': str(time.time())
+        },
+        cookies=ALL_COOKIE_DICT
+    )
+    # 有消息
+    if 'retcode:"0",selector:"2"' in r1.text:
+        post_dict = {
+            'BaseRequest': {
+                'Sid': TICKET_DOCT['wxsid'],
+                'Skey': TICKET_DOCT['skey'],
+                'Uin': TICKET_DOCT['wxuin'],
+                'DeviceID': 'e742373796383392'
+            },
+            'SyncKey': USER_INIT_IDCT['SyncKey'],
+            'rr': '-357427617'
+        }
+
+        # 获取消息
+        r2 = requests.post(
+            url='https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync',
+            params={
+                'skey': TICKET_DOCT['skey'],
+                'sid': TICKET_DOCT['wxsid'],
+                'lang': 'zh_CN',
+                'pass_ticket': TICKET_DOCT['pass_ticket']
+            },
+            json=post_dict,
+            cookies=ALL_COOKIE_DICT
+        )
+        r2.encoding = 'utf-8'
+        msg_dict = json.loads(r2.text)
+        msg_info = msg_dict['AddMsgList']
+        if len(msg_info) != 0:
+            for msg_info in msg_dict['AddMsgList']:
+                print(msg_info['Content'])
+                print(msg_info[''])
+        # 更新SyncKey
+        USER_INIT_IDCT['SyncKey'] = msg_dict['SyncKey']
+        print("这是有消息了-->", msg_dict)
+
+    return HttpResponse('...')
